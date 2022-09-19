@@ -43,7 +43,7 @@
                                 <div class="relative">
                                     <label for="current_quantity" class="leading-7 text-sm text-gray-600">初期在庫 ※必須</label>
                                     <input type="hidden" id="current_quantity" name="current_quantity" value="{{ $quantity }}" require class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                    <div class="w-full bg-gray-100 bg-opacity-50 rounded text-base outline-none text-gray-700 py-1 px-3 leading-8">{{ $quantity }}</div>                              
+                                    <div class="w-full bg-gray-100 bg-opacity-50 rounded text-base outline-none text-gray-700 py-1 px-3 leading-8">{{ $quantity }}</div>
                                 </div>
                             </div>
                             <div class="p-2 w-1/2 mx-auto">
@@ -103,6 +103,13 @@
                             </div>
                         </div>
                     </form>
+                    <form id="delete_{{$product->id}}" method="post" action="{{ route('owner.products.destroy', ['product' => $product->id ] )}}">
+                        @csrf
+                        @method('delete')
+                        <div class="p-2 w-full flex justify-around mt-32">
+                            <a href="#" data-id="{{ $product->id }}" onclick="deletePost(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded ">削除する</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -110,7 +117,7 @@
     <script>
         'use strict'
         const images = document.querySelectorAll('.image') //全てのimageタグを取得 images.forEach(image => { // 1つずつ繰り返す
-        image.foreach(image => {
+        image.forEach(image => {
             image.addEventListener('click', function(e) { // クリックしたら
                 const imageName = e.target.dataset.id.substr(0, 6) //data-idの6文字
                 const imageId = e.target.dataset.id.replace(imageName + '_', '') // 6文字カット const imageFile = e.target.dataset.file
@@ -118,8 +125,17 @@
                 const modal = e.target.dataset.modal
                 // サムネイルと input type=hiddenのvalueに設定
                 document.getElementById(imageName + '_thumbnail').src = imagePath + '/' + imageFile
-                document.getElementById(imageName + '_hidden').value = imageId MicroModal.close(modal); //モーダルを閉じる
+                document.getElementById(imageName + '_hidden').value = imageId 
+                MicroModal.close(modal); //モーダルを閉じる
             }, )
         })
+       
+
+        function deletePost(e) {
+            'use strict';
+            if (confirm('本当に削除してもいいですか?')) {
+                document.getElementById('delete_' + e.dataset.id).submit();
+            }
+        }
     </script>
 </x-app-layout>

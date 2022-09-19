@@ -37,5 +37,6 @@
                 {{ $slot }}
             </main>
         </div>
+        <link rel="stylesheet" href="{{ mix('js/app.js') }}">
     </body>
 </html>
