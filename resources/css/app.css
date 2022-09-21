@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'swiper';
 
 
 /**************************\
@@ -153,4 +154,10 @@
   .micromodal-slide .modal__container,
   .micromodal-slide .modal__overlay {
     will-change: transform;
+  }
+
+
+  .swiper {
+    width: 600px;
+    height: 300px;
   }
