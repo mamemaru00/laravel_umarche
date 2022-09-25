@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Stock;
+use Stripe;
 
 class CartController extends Controller
 {
@@ -88,8 +89,6 @@ class CartController extends Controller
             ]);
         }
 
-        dd('test');
-
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         $session = \Stripe\Checkout\Session::create([
@@ -97,13 +96,15 @@ class CartController extends Controller
             'line_items' => [$lineItems],
             'mode' => 'payment',
             'success_url' =>route('user.items.index'),
-            'cancel_url' =>route('user.items.index'),
+            'cancel_url' =>route('user.cart.index'),
         ]);
 
-        $publickey = env('STRIPE_PUBLIC_KEY');
+        // $publicKey = env('STRIPE_PUBLIC_KEY');
 
-        return view('user.checkout',
-            compact('session', 'publickey'));
+        // return view('user.checkout',
+        //     compact('session', 'publicKey'));
+
+            return redirect($session->url, 303);   
 
     }
 }
