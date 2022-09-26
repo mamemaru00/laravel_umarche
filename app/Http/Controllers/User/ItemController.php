@@ -21,8 +21,8 @@ class ItemController extends Controller
         $this->middleware(function ($request, $next) {
             $id = $request->route()->parameter('item'); 
                 if(!is_null($id)){ 
-                    $ItemId = Product::availableItems($id)->where('products.id, $id')->id->exists(); 
-                    if(!$ItemId){ 
+                    $itemId = Product::availableItems()->where('products.id', $id)->exists();
+                    if(!$itemId){ 
                         abort(404); 
                     }
                 }    
